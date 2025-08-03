@@ -1,0 +1,14 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "item/gold_block"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1001
+            },
+            "model": "item/store_icon"
+        }
+    ]
+}
