@@ -1,0 +1,47 @@
+name: Build and Release Resource Pack
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to create release
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set version
+      id: version
+      run: echo "version=$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
+
+    - name: Create ZIP of resource pack
+      run: |
+        mkdir -p build
+        zip -r build/CustomStoreUI.zip assets pack.mcmeta
+
+    - name: Calculate SHA-1 hash
+      id: sha1
+      run: |
+        hash=$(sha1sum build/CustomStoreUI.zip | awk '{ print $1 }')
+        echo "sha1=$hash" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Resource Pack ${{ steps.version.outputs.version }}
+        tag_name: v${{ steps.version.outputs.version }}
+        body: |
+          ✅ Minecraft Resource Pack Built Automatically
+
+          🔗 **Direct Download:** [Click Here](https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/CustomStoreUI.zip)
+
+          📦 **SHA-1 Hash (for server.properties):**
+          ```
+          ${{ steps.sha1.outputs.sha1 }}
+          ```
+        files: build/CustomStoreUI.zip
