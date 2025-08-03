@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/gold_ingot"
+  },
+   "cases": [
+     {
+       "when": "store",
+       "model": {
+         "type": "model",
+         "model": "item/store_icon"
+       }
+     }
+   ]
+}
