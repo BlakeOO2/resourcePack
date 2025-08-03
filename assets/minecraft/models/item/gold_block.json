@@ -1,14 +1,19 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "item/gold_block"
-    },
-    "overrides": [
-        {
-            "predicate": {
-                "custom_model_data": 1001
-            },
-            "model": "item/store_icon"
-        }
-    ]
+    "model": {
+        "type": "select",
+        "property": "custom_model_data",
+        "fallback": {
+            "type": "model",
+            "model": "item/gold_block"
+        },
+        "cases": [
+            {
+                "when": "store",
+                "model": {
+                    "type": "model",
+                    "model": "item/store_icon"
+                }
+            }
+        ]
+    }
 }
